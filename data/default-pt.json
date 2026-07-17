@@ -105,6 +105,14 @@
 				"Implementei testes E2E com Playwright (JS/TS) nos projetos Ambiental e Bako ID, cobrindo fluxos Web3 na Fuel Blockchain e sistemas governamentais.",
 				"Integrei automações em pipelines CI/CD com GitHub Actions; documentei e estruturei casos de teste no ClickUp."
 			]
+		},
+		{
+			"title": "Velaplast | Auxiliar de Compras | Presencial | Set/2024 - Mar/2025",
+			"context": "Primeira experiência profissional, focada em rotinas administrativas e operacionais de compras. Desenvolvimento de organização, atenção a detalhes e comunicação com fornecedores.",
+			"bullets": [
+				"Atuação presencial em rotinas de compras.",
+				"Utilização do ERP SAP para apoio aos processos de compras e controle de materiais."
+			]
 		}
 	],
 	"projects": [
@@ -113,13 +121,6 @@
 			"context": "Projeto de comparação de desempenho entre bancos SQL, NoSQL, NewSQL e In-Memory.",
 			"bullets": [
 				"Comparei desempenho de bancos SQL, NoSQL, NewSQL e In-Memory (PostgreSQL, CockroachDB, MongoDB, Redis) em ambiente isolado com Docker Compose, medindo latência, TPS e consumo de recursos."
-			]
-		},
-		{
-			"title": "Todo List Monorepo — NestJS, Prisma, PostgreSQL, JWT, React, TanStack Router, TailwindCSS, Turborepo",
-			"context": "Aplicação full stack em monorepo criada como desafio técnico de transição QA → Dev.",
-			"bullets": [
-				"Desenvolvi API NestJS com autenticação JWT e frontend React com TanStack Router type-safe, Dockerizado com padrões ESLint/Husky."
 			]
 		}
 	],
