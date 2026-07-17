@@ -1,98 +1,138 @@
 {
-  "profile": {
-    "name": "Caio Balieiro Mariano",
-    "location": "Guaratinguetá, SP",
-    "phone": "+55 12 99142-2498",
-    "email": "caiobalieiro676@gmail.com",
-    "linkedin": "linkedin.com/in/caio-balieiro",
-    "github": "github.com/CaioBalieir0",
-    "title": "Desenvolvedor Full Stack Júnior",
-    "summary": "Desenvolvedor Full Stack Júnior com experiência real em produção usando Node.js, TypeScript, React, Fastify, PostgreSQL/MySQL e AWS. Atuei como arquiteto principal em projeto freelancer end-to-end e em fintech automotiva com chatbots de pagamento via WhatsApp, APIs REST e backoffices. Background em QA com automação E2E (Playwright) em sistemas Web3 e governamentais."
-  },
-  "skills": [
-    {
-      "category": "Backend",
-      "items": ["TypeScript", "Node.js", "Fastify", "Express", "Bun", "Elysia", "REST APIs", "Clean Architecture", "TypeORM", "Drizzle", "Prisma", "Redis", "BullMQ", "RabbitMQ", "JWT", "Zod"]
-    },
-    {
-      "category": "Frontend",
-      "items": ["React", "Vite", "Tailwind CSS", "Chakra UI", "TanStack Query/Form", "Redux", "PWA", "IndexedDB"]
-    },
-    {
-      "category": "Cloud/DevOps",
-      "items": ["AWS Lambda", "AWS Lex", "ECS Fargate", "SES", "CloudWatch", "X-Ray", "Amplify", "Docker", "CI/CD", "GitHub Actions"]
-    },
-    {
-      "category": "Banco de Dados",
-      "items": ["PostgreSQL", "MySQL", "MongoDB", "Redis"]
-    },
-    {
-      "category": "Testes",
-      "items": ["Jest", "Playwright", "TDD", "E2E", "Integração"]
-    },
-    {
-      "category": "Observabilidade",
-      "items": ["OpenTelemetry", "Jaeger", "AWS X-Ray", "Metabase"]
-    },
-    {
-      "category": "Web3",
-      "items": ["Fuel Blockchain", "Smart Contracts (Solidity)"]
-    }
-  ],
-  "experience": [
-    {
-      "title": "Lumen Foundation | Desenvolvedor Full Stack & Arquiteto Técnico | Freelancer | Fev/2026 – Atual",
-      "context": "Plataforma web para fundação social que apoia crianças em Moçambique. Responsável técnico único, definindo stack, modelagem de dados, segurança e workflow de desenvolvimento.",
-      "bullets": [
-        "Defini toda a arquitetura do sistema (React/Vite/TypeScript + Fastify/Drizzle/MySQL), modelagem de dados, Docker local e estratégia de infraestrutura.",
-        "Desenvolvi funcionalidades full stack: autenticação JWT, área do doador, fluxos de doação única/recorrente, painel admin, gestão de voluntários e relatórios.",
-        "Implementei TDD com Jest cobrindo regras de negócio e segurança; integrei Asaas (PIX/boleto/cartão), Resend e observabilidade com OpenTelemetry/Jaeger/Metabase.",
-        "Estruturei workflow de desenvolvimento assistido por IA com agentes, comandos personalizados e ciclo completo de entrega (planejamento → PR) com revisão humana obrigatória."
-      ]
-    },
-    {
-      "title": "InfinityBase | Desenvolvedor Full Stack Júnior | Out/2025 – Mai/2026",
-      "context": "Atuação em dois ecossistemas: fintech automotiva (CarroPago/Renave) com TypeScript moderno e plataforma governamental (Bauhaus) com JavaScript legado.",
-      "bullets": [
-        "Desenvolvi e mantive APIs REST em duas gerações de código (Bun + Clean Architecture e Express legado) distribuídas em 3 bancos PostgreSQL, com soft delete universal e migrations.",
-        "Atuei em chatbots de pagamento via WhatsApp (AWS Lambda + Lex + Twilio) com estado de sessão em Redis e workers assíncronos em BullMQ que cruzam confirmação de PIX com sessão ativa.",
-        "Implementei funcionalidades no backoffice multi-tenant (AWS ECS Fargate): cadastro de integradores com validação de CNPJ, envio de API Key por e-mail e refatoração de exports N+1 em Excel.",
-        "Refatorei geração de PDFs no ecossistema governamental: de Lambda síncrono (~1 min) para Lambda + S3 assíncrono (~10 seg), sem limite de tamanho; implementei offline-first com PWA + Dexie.js (IndexedDB).",
-        "Investiguei bugs end-to-end em ambientes distribuídos (Twilio → Lex → Lambda → API → integrações externas) via CloudWatch, dumps de banco e tracing com OpenTelemetry/AWS X-Ray."
-      ]
-    },
-    {
-      "title": "InfinityBase | Analista de QA | Mar/2025 – Out/2025",
-      "context": "Atuação em QA com automação E2E em projetos Web3 e sistemas governamentais.",
-      "bullets": [
-        "Implementei testes E2E com Playwright (JS/TS) nos projetos Ambiental e Bako ID, cobrindo fluxos Web3 na Fuel Blockchain e sistemas governamentais.",
-        "Integrei automações em pipelines CI/CD com GitHub Actions; documentei e estruturei casos de teste no ClickUp."
-      ]
-    }
-  ],
-  "projects": [
-    {
-      "title": "Benchmark de Bancos de Dados (TCC) — JavaScript, Docker, PostgreSQL, MongoDB, CockroachDB, Redis",
-      "context": "Projeto de comparação de desempenho entre bancos SQL, NoSQL, NewSQL e In-Memory.",
-      "bullets": [
-        "Comparei desempenho de bancos SQL, NoSQL, NewSQL e In-Memory (PostgreSQL, CockroachDB, MongoDB, Redis) em ambiente isolado com Docker Compose, medindo latência, TPS e consumo de recursos."
-      ]
-    },
-    {
-      "title": "Todo List Monorepo — NestJS, Prisma, PostgreSQL, JWT, React, TanStack Router, TailwindCSS, Turborepo",
-      "context": "Aplicação full stack em monorepo criada como desafio técnico de transição QA → Dev.",
-      "bullets": [
-        "Desenvolvi API NestJS com autenticação JWT e frontend React com TanStack Router type-safe, Dockerizado com padrões ESLint/Husky."
-      ]
-    }
-  ],
-  "education": [
-    {
-      "title": "FATEC Guaratinguetá — Análise e Desenvolvimento de Sistemas (Tecnólogo) | Fev/2023 – Fev/2026",
-      "details": [
-        "Certificações: Cisco Networking Academy — Fundamentos da Rede (Jul/2025) | IT Essentials (Jun/2023)"
-      ]
-    }
-  ],
-  "languages": ["Português nativo", "Inglês intermediário (leitura técnica fluente)"]
+	"profile": {
+		"name": "Caio Balieiro Mariano",
+		"location": "Guaratinguetá, SP",
+		"phone": "+55 12 99142-2498",
+		"email": "caiobalieiro676@gmail.com",
+		"linkedin": "linkedin.com/in/caio-balieiro",
+		"github": "github.com/CaioBalieir0",
+		"title": "Desenvolvedor Full Stack",
+		"summary": "Desenvolvedor Full Stack com experiência real em produção usando Node.js, TypeScript, React, Fastify, PostgreSQL/MySQL e AWS. Atuei como arquiteto principal em projeto freelancer end-to-end e em fintech automotiva com chatbots de pagamento via WhatsApp, APIs REST e backoffices. Background em QA com automação E2E (Playwright) em sistemas Web3 e governamentais."
+	},
+	"skills": [
+		{
+			"category": "Backend",
+			"items": [
+				"TypeScript",
+				"Node.js",
+				"Fastify",
+				"Express",
+				"Bun",
+				"Elysia",
+				"REST APIs",
+				"Clean Architecture",
+				"TypeORM",
+				"Drizzle",
+				"Prisma",
+				"Redis",
+				"BullMQ",
+				"RabbitMQ",
+				"JWT",
+				"Zod"
+			]
+		},
+		{
+			"category": "Frontend",
+			"items": [
+				"React",
+				"Vite",
+				"Tailwind CSS",
+				"Chakra UI",
+				"TanStack Query/Form",
+				"Redux",
+				"PWA",
+				"IndexedDB"
+			]
+		},
+		{
+			"category": "Cloud/DevOps",
+			"items": [
+				"AWS Lambda",
+				"AWS Lex",
+				"ECS Fargate",
+				"SES",
+				"CloudWatch",
+				"X-Ray",
+				"Amplify",
+				"Docker",
+				"CI/CD",
+				"GitHub Actions"
+			]
+		},
+		{
+			"category": "Banco de Dados",
+			"items": ["PostgreSQL", "MySQL", "MongoDB", "Redis"]
+		},
+		{
+			"category": "Testes",
+			"items": ["Jest", "Playwright", "TDD", "E2E", "Integração"]
+		},
+		{
+			"category": "Observabilidade",
+			"items": ["OpenTelemetry", "Jaeger", "AWS X-Ray", "Metabase"]
+		},
+		{
+			"category": "Web3",
+			"items": ["Fuel Blockchain", "Smart Contracts (Solidity)"]
+		}
+	],
+	"experience": [
+		{
+			"title": "Lumen Foundation | Desenvolvedor Full Stack & Arquiteto Técnico | Freelancer | Fev/2026 – Atual",
+			"context": "Plataforma web para fundação social que apoia crianças em Moçambique. Responsável técnico único, definindo stack, modelagem de dados, segurança e workflow de desenvolvimento.",
+			"bullets": [
+				"Defini toda a arquitetura do sistema (React/Vite/TypeScript + Fastify/Drizzle/MySQL), modelagem de dados, Docker local e estratégia de infraestrutura.",
+				"Desenvolvi funcionalidades full stack: autenticação JWT, área do doador, fluxos de doação única/recorrente, painel admin, gestão de voluntários e relatórios.",
+				"Implementei TDD com Jest cobrindo regras de negócio e segurança; integrei Asaas (PIX/boleto/cartão), Resend e observabilidade com OpenTelemetry/Jaeger/Metabase.",
+				"Estruturei workflow de desenvolvimento assistido por IA com agentes, comandos personalizados e ciclo completo de entrega (planejamento → PR) com revisão humana obrigatória."
+			]
+		},
+		{
+			"title": "InfinityBase | Desenvolvedor Full Stack Júnior | Out/2025 – Mai/2026",
+			"context": "Atuação em dois ecossistemas: fintech automotiva (CarroPago/Renave) com TypeScript moderno e plataforma governamental (Bauhaus) com JavaScript legado.",
+			"bullets": [
+				"Desenvolvi e mantive APIs REST em duas gerações de código (Bun + Clean Architecture e Express legado) distribuídas em 3 bancos PostgreSQL, com soft delete universal e migrations.",
+				"Atuei em chatbots de pagamento via WhatsApp (AWS Lambda + Lex + Twilio) com estado de sessão em Redis e workers assíncronos em BullMQ que cruzam confirmação de PIX com sessão ativa.",
+				"Implementei funcionalidades no backoffice multi-tenant (AWS ECS Fargate): cadastro de integradores com validação de CNPJ, envio de API Key por e-mail e refatoração de exports N+1 em Excel.",
+				"Refatorei geração de PDFs no ecossistema governamental: de Lambda síncrono (~1 min) para Lambda + S3 assíncrono (~10 seg), sem limite de tamanho; implementei offline-first com PWA + Dexie.js (IndexedDB).",
+				"Investiguei bugs end-to-end em ambientes distribuídos (Twilio → Lex → Lambda → API → integrações externas) via CloudWatch, dumps de banco e tracing com OpenTelemetry/AWS X-Ray."
+			]
+		},
+		{
+			"title": "InfinityBase | Analista de QA | Mar/2025 – Out/2025",
+			"context": "Atuação em QA com automação E2E em projetos Web3 e sistemas governamentais.",
+			"bullets": [
+				"Implementei testes E2E com Playwright (JS/TS) nos projetos Ambiental e Bako ID, cobrindo fluxos Web3 na Fuel Blockchain e sistemas governamentais.",
+				"Integrei automações em pipelines CI/CD com GitHub Actions; documentei e estruturei casos de teste no ClickUp."
+			]
+		}
+	],
+	"projects": [
+		{
+			"title": "Benchmark de Bancos de Dados (TCC) — JavaScript, Docker, PostgreSQL, MongoDB, CockroachDB, Redis",
+			"context": "Projeto de comparação de desempenho entre bancos SQL, NoSQL, NewSQL e In-Memory.",
+			"bullets": [
+				"Comparei desempenho de bancos SQL, NoSQL, NewSQL e In-Memory (PostgreSQL, CockroachDB, MongoDB, Redis) em ambiente isolado com Docker Compose, medindo latência, TPS e consumo de recursos."
+			]
+		},
+		{
+			"title": "Todo List Monorepo — NestJS, Prisma, PostgreSQL, JWT, React, TanStack Router, TailwindCSS, Turborepo",
+			"context": "Aplicação full stack em monorepo criada como desafio técnico de transição QA → Dev.",
+			"bullets": [
+				"Desenvolvi API NestJS com autenticação JWT e frontend React com TanStack Router type-safe, Dockerizado com padrões ESLint/Husky."
+			]
+		}
+	],
+	"education": [
+		{
+			"title": "FATEC Guaratinguetá — Análise e Desenvolvimento de Sistemas (Tecnólogo) | Fev/2023 – Fev/2026",
+			"details": [
+				"Certificações: Cisco Networking Academy — Fundamentos da Rede (Jul/2025) | IT Essentials (Jun/2023)"
+			]
+		}
+	],
+	"languages": [
+		"Português nativo",
+		"Inglês intermediário (leitura técnica fluente)"
+	]
 }
