@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{profile.name}} - Resume</title>
+  <style>
+    @page { size: A4; margin: 12mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: #202124; font-family: Arial, Helvetica, sans-serif; font-size: 10.5pt; line-height: 1.35; }
+    header { border-bottom: 2px solid #202124; padding-bottom: 8px; margin-bottom: 12px; }
+    h1 { margin: 0; font-size: 24pt; letter-spacing: -0.5px; }
+    .title { margin-top: 2px; font-size: 13pt; font-weight: 700; color: #374151; }
+    .contact { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 6px; font-size: 9.5pt; color: #4b5563; }
+    section { margin-top: 11px; }
+    h2 { margin: 0 0 5px; font-size: 10.5pt; text-transform: uppercase; letter-spacing: 1px; color: #111827; border-bottom: 1px solid #d1d5db; padding-bottom: 2px; }
+    p { margin: 0; }
+    .skills { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; }
+    .skill-category { font-weight: 700; }
+    .skill-items { color: #374151; }
+    .item { margin-bottom: 8px; }
+    .item-title { font-weight: 700; }
+    .context { margin-top: 1px; color: #4b5563; font-style: italic; }
+    ul { margin: 3px 0 0; padding: 0; list-style: none; }
+    li { margin: 2px 0; padding-left: 14px; position: relative; }
+    li::before { content: '▸'; position: absolute; left: 0; color: #111827; font-weight: 700; }
+    .languages { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>{{profile.name}}</h1>
+    <div class="title">{{profile.title}}</div>
+    <div class="contact">
+      <span>{{profile.location}}</span>
+      <span>{{profile.phone}}</span>
+      <span>{{profile.email}}</span>
+      <span>{{profile.linkedin}}</span>
+      <span>{{profile.github}}</span>
+    </div>
+  </header>
+
+  <section>
+    <h2>Summary</h2>
+    <p>{{profile.summary}}</p>
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+    <div class="skills">
+      {{#each skills}}
+        <div>
+          <span class="skill-category">{{category}}:</span>
+          <span class="skill-items">{{#each items}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}</span>
+        </div>
+      {{/each}}
+    </div>
+  </section>
+
+  <section>
+    <h2>Experience</h2>
+    {{#each experience}}
+      <div class="item">
+        <div class="item-title">{{title}}</div>
+        <div class="context">{{context}}</div>
+        <ul>{{#each bullets}}<li>{{this}}</li>{{/each}}</ul>
+      </div>
+    {{/each}}
+  </section>
+
+  <section>
+    <h2>Projects</h2>
+    {{#each projects}}
+      <div class="item">
+        <div class="item-title">{{title}}</div>
+        <div class="context">{{context}}</div>
+        <ul>{{#each bullets}}<li>{{this}}</li>{{/each}}</ul>
+      </div>
+    {{/each}}
+  </section>
+
+  <section>
+    <h2>Education</h2>
+    {{#each education}}
+      <div class="item">
+        <div class="item-title">{{title}}</div>
+        <ul>{{#each details}}<li>{{this}}</li>{{/each}}</ul>
+      </div>
+    {{/each}}
+  </section>
+
+  <section>
+    <h2>Languages</h2>
+    <div class="languages">{{#each languages}}<span>{{this}}</span>{{/each}}</div>
+  </section>
+</body>
+</html>

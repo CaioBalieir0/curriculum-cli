@@ -1,0 +1,42 @@
+{
+  "name": "curriculo-cli",
+  "version": "0.1.0",
+  "description": "English CLI for generating customized resume PDFs in Portuguese or English.",
+  "type": "module",
+  "bin": {
+    "resume": "./bin/resume"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepack": "npm run build",
+    "start": "node ./dist/cli.js",
+    "generate:pt": "npm run build --silent && node ./dist/cli.js generate-pt",
+    "generate:en": "npm run build --silent && node ./dist/cli.js generate-en"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "templates",
+    "data",
+    "README.md"
+  ],
+  "keywords": [
+    "resume",
+    "cli",
+    "pdf",
+    "typescript"
+  ],
+  "author": "Caio Balieiro Mariano",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "handlebars": "^4.7.8",
+    "inquirer": "^14.0.2",
+    "puppeteer": "^23.11.1",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  }
+}
