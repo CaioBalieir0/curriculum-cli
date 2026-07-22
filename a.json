@@ -1,0 +1,55 @@
+{
+  "profile": {
+    "location": "Jardim das Indústrias, São José dos Campos/SP",
+    "title": "Engenheiro de Software Júnior",
+    "summary": "Profissional com experiência em desenvolvimento de software, automação de testes e análise de dados, atuando com Node.js, TypeScript, React, Python, bancos de dados SQL e ferramentas de observabilidade. Experiência em desenvolvimento de soluções para ambientes produtivos, investigação de problemas, melhoria contínua e trabalho em equipes multidisciplinares. Conhecimento em Power BI, inteligência artificial e programação em Python, com perfil analítico e facilidade para aprender novas tecnologias."
+  },
+  "skills": [
+    {
+      "category": "Programação",
+      "items": [
+        "Python",
+        "JavaScript",
+        "TypeScript",
+        "Node.js",
+        "React",
+        "Java", 
+        "REST APIs"
+      ]
+    },
+    {
+      "category": "Análise de Dados",
+      "items": [
+        "Power BI",
+        "ERP",
+        "SAP",
+        "SQL",
+        "PostgreSQL",
+        "MySQL",
+        "MongoDB",
+        "Redis"
+      ]
+    },
+    {
+      "category": "Inteligência Artificial",
+      "items": [
+        "ChatGPT",
+        "Claude",
+        "Desenvolvimento assistido por IA"
+      ]
+    },
+    {
+      "category": "Ferramentas",
+      "items": [
+        "Git",
+        "Docker",
+        "AWS",
+        "CI/CD",
+        "Jest",
+        "RabbitMQ",
+        "Playwright"
+      ]
+    }
+  ],
+  "projects": []
+}

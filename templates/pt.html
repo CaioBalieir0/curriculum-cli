@@ -68,17 +68,19 @@
     </div>
   </section>
 
-  <section class="projects">
-    <h2>PROJETOS PESSOAIS</h2>
-    <div class="rule">
-      {{#each projects}}
-        <div class="entry">
-          <div class="entry-title">{{{formatProjectTitle title}}}</div>
-          <ul>{{#each bullets}}<li>{{this}}</li>{{/each}}</ul>
-        </div>
-      {{/each}}
-    </div>
-  </section>
+  {{#if projects}}
+    <section class="projects">
+      <h2>PROJETOS PESSOAIS</h2>
+      <div class="rule">
+        {{#each projects}}
+          <div class="entry">
+            <div class="entry-title">{{{formatProjectTitle title}}}</div>
+            <ul>{{#each bullets}}<li>{{this}}</li>{{/each}}</ul>
+          </div>
+        {{/each}}
+      </div>
+    </section>
+  {{/if}}
 
   <section>
     <h2>FORMAÇÃO &amp; IDIOMAS</h2>

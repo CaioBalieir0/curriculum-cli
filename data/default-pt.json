@@ -93,7 +93,6 @@
 			"bullets": [
 				"Desenvolvi e mantive APIs REST em duas gerações de código (Bun + Clean Architecture e Express legado) distribuídas em 3 bancos PostgreSQL, com soft delete universal e migrations.",
 				"Atuei em chatbots de pagamento via WhatsApp (AWS Lambda + Lex + Twilio) com estado de sessão em Redis e workers assíncronos em BullMQ que cruzam confirmação de PIX com sessão ativa.",
-				"Implementei funcionalidades no backoffice multi-tenant (AWS ECS Fargate): cadastro de integradores com validação de CNPJ, envio de API Key por e-mail e refatoração de exports N+1 em Excel.",
 				"Refatorei geração de PDFs no ecossistema governamental: de Lambda síncrono (~1 min) para Lambda + S3 assíncrono (~10 seg), sem limite de tamanho; implementei offline-first com PWA + Dexie.js (IndexedDB).",
 				"Investiguei bugs end-to-end em ambientes distribuídos (Twilio → Lex → Lambda → API → integrações externas) via CloudWatch, dumps de banco e tracing com OpenTelemetry/AWS X-Ray."
 			]

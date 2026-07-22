@@ -93,11 +93,11 @@ default data < config JSON < CLI flags or interactive answers
 
 Objects are deeply merged field by field, so a config can override only `profile.title` while keeping all other profile fields from the default data.
 
-Arrays replace whole sections when present and non-empty. This applies to `skills`, `experience`, `projects`, `education`, and `languages`. If an array is missing or empty in the config, the default section remains.
+Arrays replace whole sections when present and non-empty. This applies to `skills`, `experience`, `education`, and `languages`. If one of those arrays is missing or empty in the config, the default section remains. `projects` is the exception: set `"projects": []` to hide the personal projects section.
 
 ## Complete Config Example
 
-`--config` accepts a partial resume JSON. Any omitted fields keep the selected default data from `data/default-pt.json` or `data/default-en.json`. Arrays replace the whole section when present and non-empty.
+`--config` accepts a partial resume JSON. Any omitted fields keep the selected default data from `data/default-pt.json` or `data/default-en.json`. Arrays replace the whole section when present and non-empty, except `"projects": []`, which hides the personal projects section.
 
 ```json
 {

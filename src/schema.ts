@@ -31,7 +31,7 @@ export const resumeSchema = z.object({
   profile: profileSchema,
   skills: z.array(skillGroupSchema).min(1),
   experience: z.array(sectionItemSchema).min(1),
-  projects: z.array(sectionItemSchema).min(1),
+  projects: z.array(sectionItemSchema),
   education: z.array(educationItemSchema).min(1),
   languages: z.array(z.string().min(1)).min(1)
 }).strict();

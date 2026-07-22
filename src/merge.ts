@@ -1,6 +1,6 @@
 import type { CliOverrides, ResumeConfig, ResumeData } from './schema.js';
 
-const arrayKeys = new Set(['skills', 'experience', 'projects', 'education', 'languages']);
+const defaultPreservingArrayKeys = new Set(['skills', 'experience', 'education', 'languages']);
 
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -12,7 +12,7 @@ function mergeValue(defaultValue: unknown, overrideValue: unknown, key?: string)
   }
 
   if (Array.isArray(defaultValue) || Array.isArray(overrideValue)) {
-    if (key && arrayKeys.has(key) && Array.isArray(overrideValue) && overrideValue.length === 0) {
+    if (key && defaultPreservingArrayKeys.has(key) && Array.isArray(overrideValue) && overrideValue.length === 0) {
       return defaultValue;
     }
 
