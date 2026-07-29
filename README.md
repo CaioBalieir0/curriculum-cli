@@ -1,67 +1,135 @@
 # curriculo-cli
 
-Node.js CLI for generating customized resume PDFs in Portuguese or English.
+CLI em Node.js para gerar curriculos personalizados em PDF, com suporte a portugues e ingles, templates HTML e configuracao via JSON, flags ou modo interativo.
 
-## Install And Build
+Este projeto foi criado como uma ferramenta pratica para adaptar curriculos rapidamente para diferentes vagas, mantendo os dados estruturados, validando entradas e gerando um PDF final com layout consistente.
+
+## Visao Geral
+
+O `curriculo-cli` combina dados padrao, configuracoes parciais e sobrescritas de linha de comando para montar um curriculo final em PDF. A proposta e evitar edicoes manuais repetitivas em documentos visuais e permitir que cada versao do curriculo seja reproduzivel a partir de dados estruturados.
+
+Principais capacidades:
+
+- Geracao de curriculos em portugues e ingles.
+- Templates HTML separados por idioma.
+- Exportacao para PDF em formato A4.
+- Configuracao por arquivo JSON parcial.
+- Sobrescrita rapida de titulo, resumo, skills e nome do arquivo via flags.
+- Modo interativo para preencher ajustes simples pelo terminal.
+- Validacao estrita dos dados para evitar typos e configs invalidas.
+
+## Tecnologias Utilizadas
+
+- **TypeScript**: tipagem estatica e organizacao do codigo fonte.
+- **Node.js com ES Modules**: runtime da CLI e manipulacao de arquivos.
+- **Commander**: definicao dos comandos `generate-pt` e `generate-en`.
+- **Zod**: validacao dos dados do curriculo e das configs JSON.
+- **Handlebars**: renderizacao dos templates HTML com os dados do curriculo.
+- **Puppeteer**: conversao do HTML renderizado para PDF.
+- **Inquirer**: fluxo interativo para sobrescritas simples via terminal.
+
+## Arquitetura
+
+O fluxo de geracao segue esta ordem:
+
+```text
+dados padrao + config JSON + flags/modo interativo
+        -> merge dos dados
+        -> validacao com Zod
+        -> renderizacao HTML com Handlebars
+        -> exportacao PDF com Puppeteer
+```
+
+Os dados base ficam em `data/default-pt.json` e `data/default-en.json`. Os layouts ficam em `templates/pt.html` e `templates/en.html`. A saida final e escrita em `output/`, relativa ao diretorio onde o comando foi executado.
+
+## Estrutura Do Projeto
+
+```text
+bin/resume             Executavel publicado pelo pacote
+data/                  Dados padrao dos curriculos em PT e EN
+dist/                  Codigo JavaScript compilado
+src/                   Codigo fonte TypeScript da CLI
+templates/             Templates HTML usados na renderizacao
+output/                PDFs gerados localmente
+```
+
+Arquivos principais em `src/`:
+
+- `cli.ts`: registra comandos, flags e fluxo principal de geracao.
+- `schema.ts`: define os schemas Zod e os tipos de dados do curriculo.
+- `merge.ts`: aplica a ordem de prioridade entre defaults, config e flags.
+- `render.ts`: renderiza HTML e gera PDF com Puppeteer.
+- `interactive.ts`: coleta sobrescritas simples com prompts no terminal.
+
+## Instalacao E Build
 
 ```bash
 npm install
 npm run build
 ```
 
-The package runs `npm run build` during `npm pack`/publish so the installed `resume` binary can load `dist/cli.js` and the bundled runtime assets.
+O pacote executa `npm run build` durante `npm pack`/publish, garantindo que o binario instalado consiga carregar `dist/cli.js` e os assets de runtime incluidos no pacote.
 
-Run locally after building:
+## Como Usar Localmente
+
+Depois do build, execute diretamente o arquivo compilado:
 
 ```bash
 node ./dist/cli.js generate-pt
 node ./dist/cli.js generate-en
 ```
 
-If installed as a package, the executable name is `resume`:
+Tambem existem scripts npm para os dois idiomas:
+
+```bash
+npm run generate:pt
+npm run generate:en
+```
+
+Se o pacote estiver instalado, o executavel se chama `resume`:
 
 ```bash
 resume generate-pt
 resume generate-en
 ```
 
-## Commands
+## Comandos
 
-`resume generate-pt` generates a Portuguese resume PDF from `data/default-pt.json` and `templates/pt.html`.
+`resume generate-pt` gera um curriculo em portugues usando `data/default-pt.json` e `templates/pt.html`.
 
-`resume generate-en` generates an English resume PDF from `data/default-en.json` and `templates/en.html`.
+`resume generate-en` gera um curriculo em ingles usando `data/default-en.json` e `templates/en.html`.
 
-Generated PDFs are written to `./output` relative to the directory where you run the command. Templates and default data are loaded from the installed package/project directory.
+Os PDFs gerados sao salvos em `./output`. Templates e dados padrao sao carregados do diretorio do projeto ou do pacote instalado.
 
 ## Flags
 
-`--title <text>` overrides `profile.title`.
+`--title <text>` sobrescreve `profile.title`.
 
-`--summary <text>` overrides `profile.summary`.
+`--summary <text>` sobrescreve `profile.summary`.
 
-`--skills <text>` overrides the full `skills` array. Format: `Category: item, item; Category: item`.
+`--skills <text>` substitui todo o array `skills`. Formato: `Categoria: item, item; Categoria: item`.
 
-`--output <filename>` sets the PDF filename inside `output/`. Directory components such as `../resume` or `nested/resume.pdf` are rejected. If `.pdf` is missing, it is appended automatically.
+`--output <filename>` define o nome do PDF dentro de `output/`. Componentes de diretorio, como `../resume` ou `nested/resume.pdf`, sao rejeitados. Se `.pdf` nao for informado, a extensao e adicionada automaticamente.
 
-`--config <path>` loads a JSON config file with partial resume data. Unknown keys are rejected with field-path validation errors to catch typos.
+`--config <path>` carrega um arquivo JSON com dados parciais do curriculo. Chaves desconhecidas sao rejeitadas com erros indicando o caminho do campo.
 
-`--interactive` prompts for title, summary, skills, and output filename.
+`--interactive` abre prompts para titulo, resumo, skills e nome do arquivo de saida.
 
-## Examples
+## Exemplos
 
-Generate a default Portuguese resume:
+Gerar um curriculo padrao em portugues:
 
 ```bash
 node ./dist/cli.js generate-pt --output caio-pt.pdf
 ```
 
-Generate a default English resume:
+Gerar um curriculo padrao em ingles:
 
 ```bash
 node ./dist/cli.js generate-en --output caio-resume.pdf
 ```
 
-Generate with simple flag overrides:
+Gerar com sobrescritas simples por flags:
 
 ```bash
 node ./dist/cli.js generate-pt \
@@ -71,33 +139,33 @@ node ./dist/cli.js generate-pt \
   --output caio-devops.pdf
 ```
 
-Generate with a config file:
+Gerar usando um arquivo de configuracao:
 
 ```bash
 node ./dist/cli.js generate-en --config ./config/job.json --output caio-job.pdf
 ```
 
-Generate with interactive prompts:
+Gerar com prompts interativos:
 
 ```bash
 node ./dist/cli.js generate-pt --interactive
 ```
 
-## Merge Behavior
+## Ordem De Merge
 
-Resume data is merged in this order:
+Os dados do curriculo sao combinados nesta ordem:
 
 ```text
-default data < config JSON < CLI flags or interactive answers
+dados padrao < config JSON < flags ou respostas interativas
 ```
 
-Objects are deeply merged field by field, so a config can override only `profile.title` while keeping all other profile fields from the default data.
+Objetos sao mesclados campo a campo. Isso permite, por exemplo, sobrescrever apenas `profile.title` em um arquivo de config e manter os outros campos de `profile` vindos dos dados padrao.
 
-Arrays replace whole sections when present and non-empty. This applies to `skills`, `experience`, `education`, and `languages`. If one of those arrays is missing or empty in the config, the default section remains. `projects` is the exception: set `"projects": []` to hide the personal projects section.
+Arrays substituem secoes inteiras quando informados e nao vazios. Isso vale para `skills`, `experience`, `education` e `languages`. Se um desses arrays estiver ausente ou vazio na config, a secao padrao e preservada. `projects` e a excecao: use `"projects": []` para ocultar a secao de projetos pessoais.
 
-## Complete Config Example
+## Exemplo De Config JSON
 
-`--config` accepts a partial resume JSON. Any omitted fields keep the selected default data from `data/default-pt.json` or `data/default-en.json`. Arrays replace the whole section when present and non-empty, except `"projects": []`, which hides the personal projects section.
+`--config` aceita um JSON parcial. Campos omitidos continuam usando os dados padrao do idioma selecionado.
 
 ```json
 {
@@ -153,9 +221,9 @@ Arrays replace whole sections when present and non-empty. This applies to `skill
 }
 ```
 
-Every object rejects unknown keys, so typos such as `profiles`, `skill`, or `bullet` fail with field-path validation errors. The templates and CLI also accept canonical updates by editing `data/default-pt.json` and `data/default-en.json` when the default resume itself should change.
+Todos os objetos rejeitam chaves desconhecidas. Erros como `profiles`, `skill` ou `bullet` falham com mensagens de validacao indicando o caminho do campo incorreto.
 
-## Manual Verification
+## Verificacao Local
 
 ```bash
 npm run build
@@ -164,7 +232,7 @@ node ./dist/cli.js generate-en --output en-check.pdf
 node ./dist/cli.js generate-pt --title "Junior DevOps Engineer" --skills "Backend: Node.js, Fastify; Cloud: AWS, Docker" --output flags-check.pdf
 ```
 
-To verify config validation, create a temporary invalid config such as:
+Para verificar a validacao de configs, crie temporariamente um arquivo JSON invalido, por exemplo:
 
 ```json
 {
@@ -172,10 +240,10 @@ To verify config validation, create a temporary invalid config such as:
 }
 ```
 
-Then run:
+Depois execute:
 
 ```bash
 node ./dist/cli.js generate-pt --config ./invalid-config.json
 ```
 
-Expected output includes a field-path validation error and exits with code 1.
+O resultado esperado e um erro de validacao com caminho do campo e codigo de saida `1`.
