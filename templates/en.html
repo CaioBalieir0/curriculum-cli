@@ -40,7 +40,17 @@
     <h1>{{uppercase profile.name}}</h1>
     <div class="headline">{{profile.title}}</div>
     <div class="contact">{{profile.location}} &nbsp;•&nbsp; {{profile.phone}} &nbsp;•&nbsp; {{profile.email}}</div>
-    <div class="contact links">{{profile.linkedin}} &nbsp;•&nbsp; {{profile.github}}</div>
+    {{#if profile.linkedin}}
+      {{#if profile.github}}
+        <div class="contact links">{{profile.linkedin}} &nbsp;•&nbsp; {{profile.github}}</div>
+      {{else}}
+        <div class="contact links">{{profile.linkedin}}</div>
+      {{/if}}
+    {{else}}
+      {{#if profile.github}}
+        <div class="contact links">{{profile.github}}</div>
+      {{/if}}
+    {{/if}}
   </header>
 
   <section>

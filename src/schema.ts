@@ -5,8 +5,8 @@ export const profileSchema = z.object({
   location: z.string().min(1),
   phone: z.string().min(1),
   email: z.string().min(1),
-  linkedin: z.string().min(1),
-  github: z.string().min(1),
+  linkedin: z.string(),
+  github: z.string(),
   title: z.string().min(1),
   summary: z.string().min(1)
 }).strict();
