@@ -3,13 +3,29 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import Handlebars from 'handlebars';
 import puppeteer from 'puppeteer';
-import type { ResumeData } from './schema.js';
+import type { CvData, Profile } from './schema.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 
+function normalizeUrl(value: unknown): string {
+  return String(value).trim().replace(/\s/g, '');
+}
+
+function normalizeProfileUrl(value: unknown): string {
+  const url = normalizeUrl(value);
+
+  if (!url || /^https?:\/\//i.test(url)) {
+    return url;
+  }
+
+  return `https://${url}`;
+}
+
 Handlebars.registerHelper('uppercase', (value: unknown) => String(value).toUpperCase());
+Handlebars.registerHelper('mailTo', (value: unknown) => `mailto:${normalizeUrl(value)}`);
+Handlebars.registerHelper('profileUrl', (value: unknown) => normalizeProfileUrl(value));
 Handlebars.registerHelper('formatExperienceTitle', (value: unknown) => {
   const parts = String(value).split('|').map((part) => part.trim());
   const [company, role, contract, dates] = parts;
@@ -54,42 +70,90 @@ Handlebars.registerHelper('renderSkills', (skills: unknown) => {
 
 export type Language = 'pt' | 'en';
 
+export type ResumeRenderInput = {
+  profile: Profile;
+  cv: CvData;
+};
+
 function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
 }
 
-export function createOutputName(output?: string): string {
-  const trimmedOutput = output?.trim();
-
-  if (trimmedOutput) {
-    if (trimmedOutput === '.' || trimmedOutput === '..' || /[\\/]/.test(trimmedOutput)) {
-      throw new Error('Invalid --output value. Provide a filename only, without directory components.');
-    }
-
-    return trimmedOutput.endsWith('.pdf') ? trimmedOutput : `${trimmedOutput}.pdf`;
-  }
-
-  const now = new Date();
-  const timestamp = now
+export function createTimestamp(): string {
+  return new Date()
     .toISOString()
     .replace(/[-:]/g, '')
     .replace(/T/, '-')
     .slice(0, 15);
-
-  return `resume-caio-balieiro-${timestamp}.pdf`;
 }
 
-export async function renderHtml(data: ResumeData, language: Language): Promise<string> {
+export function createSlug(value: string): string {
+  const slug = value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+  return slug || 'document';
+}
+
+export function normalizeOutputBaseName(output?: string): string | undefined {
+  const trimmedOutput = output?.trim();
+
+  if (trimmedOutput) {
+    if (trimmedOutput === '.' || trimmedOutput === '..' || /[\\/]/.test(trimmedOutput)) {
+      throw new Error('Invalid --output value. Provide a base name only, without directory components.');
+    }
+
+    const baseName = trimmedOutput.replace(/\.pdf$/i, '');
+
+    if (!baseName || baseName === '.' || baseName === '..') {
+      throw new Error('Invalid --output value. Provide a non-empty base name.');
+    }
+
+    return baseName;
+  }
+
+  return undefined;
+}
+
+export function createOutputName(output: string | undefined, profileName: string, timestamp = createTimestamp()): string {
+  const outputBaseName = normalizeOutputBaseName(output);
+
+  if (outputBaseName) {
+    return `curriculo-${outputBaseName}.pdf`;
+  }
+
+  return `resume-${createSlug(profileName)}-${timestamp}.pdf`;
+}
+
+function buildResumeTemplateData(data: ResumeRenderInput) {
+  return {
+    profile: {
+      ...data.profile,
+      title: data.cv.title,
+      summary: data.cv.summary
+    },
+    skills: data.cv.skills,
+    experience: data.cv.experience,
+    projects: data.cv.projects,
+    education: data.cv.education,
+    languages: data.cv.languages
+  };
+}
+
+export async function renderHtml(data: ResumeRenderInput, language: Language): Promise<string> {
   const templatePath = path.join(projectRoot, 'templates', `${language}.html`);
   const source = await fs.readFile(templatePath, 'utf8');
   const template = Handlebars.compile(source);
 
-  return template(data);
+  return template(buildResumeTemplateData(data));
 }
 
-export async function renderPdf(data: ResumeData, language: Language, output?: string): Promise<string> {
+export async function renderPdf(data: ResumeRenderInput, language: Language, output?: string): Promise<string> {
   const outputDirectory = path.join(process.cwd(), 'output');
-  const outputPath = path.join(outputDirectory, createOutputName(output));
+  const outputPath = path.join(outputDirectory, createOutputName(output, data.profile.name));
 
   await fs.mkdir(outputDirectory, { recursive: true });
 

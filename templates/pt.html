@@ -11,6 +11,7 @@
     h1 { margin: 0; color: #202033; font-size: 20.5pt; line-height: 1; font-weight: 700; letter-spacing: 0.2px; }
     .headline { margin-top: 4px; color: #1f5be3; font-size: 12.4pt; line-height: 1.1; }
     .contact { margin-top: 3px; color: #555; font-size: 9.4pt; line-height: 1.18; }
+    .contact a { color: inherit; text-decoration: none; }
     .links { color: #0057ff; }
     section { margin-top: 10px; }
     h2 { margin: 0 0 7px; color: #1f5be3; font-size: 13.4pt; line-height: 1; font-weight: 700; text-transform: uppercase; }
@@ -39,16 +40,16 @@
   <header>
     <h1>{{uppercase profile.name}}</h1>
     <div class="headline">{{profile.title}}</div>
-    <div class="contact">{{profile.location}} &nbsp;•&nbsp; {{profile.phone}} &nbsp;•&nbsp; {{profile.email}}</div>
+    <div class="contact">{{profile.location}} &nbsp;•&nbsp; {{profile.phone}} &nbsp;•&nbsp; <a href="{{mailTo profile.email}}">{{profile.email}}</a></div>
     {{#if profile.linkedin}}
       {{#if profile.github}}
-        <div class="contact links">{{profile.linkedin}} &nbsp;•&nbsp; {{profile.github}}</div>
+        <div class="contact links"><a href="{{profileUrl profile.linkedin}}">{{profile.linkedin}}</a> &nbsp;•&nbsp; <a href="{{profileUrl profile.github}}">{{profile.github}}</a></div>
       {{else}}
-        <div class="contact links">{{profile.linkedin}}</div>
+        <div class="contact links"><a href="{{profileUrl profile.linkedin}}">{{profile.linkedin}}</a></div>
       {{/if}}
     {{else}}
       {{#if profile.github}}
-        <div class="contact links">{{profile.github}}</div>
+        <div class="contact links"><a href="{{profileUrl profile.github}}">{{profile.github}}</a></div>
       {{/if}}
     {{/if}}
   </header>

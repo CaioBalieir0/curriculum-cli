@@ -1,0 +1,36 @@
+\documentclass[]{cover}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rfoot{Page \thepage \hspace{0pt}}
+\thispagestyle{empty}
+\renewcommand{\headrulewidth}{0pt}
+\begin{document}
+
+\namesection{}{\Huge{ {{{latex profile.name}}} }}{\href{{{mailToArgument profile.email}}}{ {{{latex profile.email}}} } | {{{latex profile.phone}}} | \urlstyle{same}\href{{{profileUrlArgument profile.linkedin}}}{LinkedIn}{{#if profile.portfolio}}\\\href{{{profileUrlArgument profile.portfolio}}}{Portfólio}{{/if}} }
+
+\currentdate{ {{#if coverLetter.date}}{{{latex coverLetter.date}}}{{else}}\today{{/if}} }
+\lettercontent{ {{{latex coverLetter.greeting}}} }
+\lettercontent{ {{{latex coverLetter.opening}}} }
+\lettercontent{ {{{latex coverLetter.body}}} }
+
+{{#if coverLetter.bullets.length}}
+{\raggedright\fontspec[Path = OpenFonts/fonts/raleway/]{Raleway-Medium}\fontsize{11pt}{13pt}\selectfont
+\begin{itemize}
+{{#each coverLetter.bullets}}
+    \item \textbf{ {{{latex title}}}:} {{{latex text}}}
+{{/each}}
+\end{itemize}\par}
+\vspace{6pt}
+{{/if}}
+
+\lettercontent{ {{{latex coverLetter.companyConnection}}} }
+\lettercontent{ {{{latex coverLetter.personalFit}}} }
+\lettercontent{ {{{latex coverLetter.final}}} }
+
+\begin{flushright}
+\closing{ {{{latex coverLetter.closing}}} }
+\signature{ {{{latex profile.name}}} }
+\end{flushright}
+\end{document}

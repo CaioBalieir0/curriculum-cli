@@ -1,249 +1,197 @@
 # curriculo-cli
 
-CLI em Node.js para gerar curriculos personalizados em PDF, com suporte a portugues e ingles, templates HTML e configuracao via JSON, flags ou modo interativo.
-
-Este projeto foi criado como uma ferramenta pratica para adaptar curriculos rapidamente para diferentes vagas, mantendo os dados estruturados, validando entradas e gerando um PDF final com layout consistente.
+CLI em Node.js para gerar curriculos e cartas de apresentacao personalizadas em PDF, com suporte a portugues e ingles, dados estruturados em JSON, flags e modo interativo para ajustes simples.
 
 ## Visao Geral
 
-O `curriculo-cli` combina dados padrao, configuracoes parciais e sobrescritas de linha de comando para montar um curriculo final em PDF. A proposta e evitar edicoes manuais repetitivas em documentos visuais e permitir que cada versao do curriculo seja reproduzivel a partir de dados estruturados.
+O `curriculo-cli` combina dados padrao, configuracao JSON e sobrescritas de linha de comando para gerar documentos reproduziveis.
 
-Principais capacidades:
+O modelo de dados separa campos compartilhados dos campos especificos de cada documento:
 
-- Geracao de curriculos em portugues e ingles.
-- Templates HTML separados por idioma.
-- Exportacao para PDF em formato A4.
-- Configuracao por arquivo JSON parcial.
-- Sobrescrita rapida de titulo, resumo, skills e nome do arquivo via flags.
-- Modo interativo para preencher ajustes simples pelo terminal.
-- Validacao estrita dos dados para evitar typos e configs invalidas.
-
-## Tecnologias Utilizadas
-
-- **TypeScript**: tipagem estatica e organizacao do codigo fonte.
-- **Node.js com ES Modules**: runtime da CLI e manipulacao de arquivos.
-- **Commander**: definicao dos comandos `generate-pt` e `generate-en`.
-- **Zod**: validacao dos dados do curriculo e das configs JSON.
-- **Handlebars**: renderizacao dos templates HTML com os dados do curriculo.
-- **Puppeteer**: conversao do HTML renderizado para PDF.
-- **Inquirer**: fluxo interativo para sobrescritas simples via terminal.
-
-## Arquitetura
-
-O fluxo de geracao segue esta ordem:
-
-```text
-dados padrao + config JSON + flags/modo interativo
-        -> merge dos dados
-        -> validacao com Zod
-        -> renderizacao HTML com Handlebars
-        -> exportacao PDF com Puppeteer
+```json
+{
+  "profile": {},
+  "cv": {},
+  "coverLetter": {}
+}
 ```
 
-Os dados base ficam em `data/default-pt.json` e `data/default-en.json`. Os layouts ficam em `templates/pt.html` e `templates/en.html`. A saida final e escrita em `output/`, relativa ao diretorio onde o comando foi executado.
+`profile` e sempre obrigatorio. `cv` e `coverLetter` sao opcionais, mas pelo menos um deles deve existir no JSON final.
 
-## Estrutura Do Projeto
+## Geração Condicional
 
-```text
-bin/resume             Executavel publicado pelo pacote
-data/                  Dados padrao dos curriculos em PT e EN
-dist/                  Codigo JavaScript compilado
-src/                   Codigo fonte TypeScript da CLI
-templates/             Templates HTML usados na renderizacao
-output/                PDFs gerados localmente
-```
-
-Arquivos principais em `src/`:
-
-- `cli.ts`: registra comandos, flags e fluxo principal de geracao.
-- `schema.ts`: define os schemas Zod e os tipos de dados do curriculo.
-- `merge.ts`: aplica a ordem de prioridade entre defaults, config e flags.
-- `render.ts`: renderiza HTML e gera PDF com Puppeteer.
-- `interactive.ts`: coleta sobrescritas simples com prompts no terminal.
-
-## Instalacao E Build
-
-```bash
-npm install
-npm run build
-```
-
-O pacote executa `npm run build` durante `npm pack`/publish, garantindo que o binario instalado consiga carregar `dist/cli.js` e os assets de runtime incluidos no pacote.
-
-## Como Usar Localmente
-
-Depois do build, execute diretamente o arquivo compilado:
-
-```bash
-node ./dist/cli.js generate-pt
-node ./dist/cli.js generate-en
-```
-
-Tambem existem scripts npm para os dois idiomas:
-
-```bash
-npm run generate:pt
-npm run generate:en
-```
-
-Se o pacote estiver instalado, o executavel se chama `resume`:
+Os comandos continuam sendo:
 
 ```bash
 resume generate-pt
 resume generate-en
 ```
 
-## Comandos
+Com `--config`, as secoes presentes no arquivo apontado controlam o que sera gerado:
 
-`resume generate-pt` gera um curriculo em portugues usando `data/default-pt.json` e `templates/pt.html`.
+```text
+profile + cv + coverLetter -> gera curriculo e carta
+profile + cv               -> gera somente curriculo
+profile + coverLetter      -> gera somente carta
+profile                    -> erro: nada para gerar
+```
 
-`resume generate-en` gera um curriculo em ingles usando `data/default-en.json` e `templates/en.html`.
+Sem `--config`, o comando usa `data/default-pt.json` ou `data/default-en.json`.
 
-Os PDFs gerados sao salvos em `./output`. Templates e dados padrao sao carregados do diretorio do projeto ou do pacote instalado.
+## Tecnologias
 
-## Flags
+- TypeScript e Node.js com ES Modules.
+- Commander para os comandos `generate-pt` e `generate-en`.
+- Zod para validacao dos JSONs.
+- Handlebars para renderizar HTML e TEX.
+- Puppeteer para converter o curriculo HTML em PDF.
+- XeLaTeX para compilar a carta de apresentacao em PDF.
 
-`--title <text>` sobrescreve `profile.title`.
+## Requisitos
 
-`--summary <text>` sobrescreve `profile.summary`.
+```bash
+npm install
+npm run build
+```
 
-`--skills <text>` substitui todo o array `skills`. Formato: `Categoria: item, item; Categoria: item`.
+Para gerar cartas de apresentacao, instale uma distribuicao TeX que forneca `xelatex`.
 
-`--output <filename>` define o nome do PDF dentro de `output/`. Componentes de diretorio, como `../resume` ou `nested/resume.pdf`, sao rejeitados. Se `.pdf` nao for informado, a extensao e adicionada automaticamente.
+Se `xelatex` nao estiver disponivel e `coverLetter` for solicitado, o comando falha com uma mensagem explicita.
 
-`--config <path>` carrega um arquivo JSON com dados parciais do curriculo. Chaves desconhecidas sao rejeitadas com erros indicando o caminho do campo.
+## Estrutura
 
-`--interactive` abre prompts para titulo, resumo, skills e nome do arquivo de saida.
+```text
+assets/cover/          Classe LaTeX cover.cls e fontes OpenFonts
+bin/resume             Executavel publicado pelo pacote
+data/                  Dados padrao em PT e EN
+dist/                  Codigo JavaScript compilado
+src/                   Codigo fonte TypeScript
+templates/             Templates HTML do curriculo e TEX da carta
+output/                PDFs finais gerados localmente
+output/bin/            TEX, logs e arquivos auxiliares da compilacao
+```
+
+## Formato Do JSON
+
+Exemplo com curriculo e carta:
+
+```json
+{
+  "profile": {
+    "name": "Lucas",
+    "location": "Sao Paulo, SP",
+    "phone": "+55 11 99999-9999",
+    "email": "lucas@example.com",
+    "linkedin": "linkedin.com/in/lucas",
+    "github": "github.com/lucas",
+    "portfolio": "https://portfolio.example.com"
+  },
+  "cv": {
+    "title": "Desenvolvedor Full Stack Junior",
+    "summary": "Desenvolvedor focado em JavaScript, TypeScript, APIs e aplicacoes web.",
+    "skills": [
+      {
+        "category": "Backend",
+        "items": ["Node.js", "TypeScript", "REST APIs"]
+      }
+    ],
+    "experience": [
+      {
+        "title": "Empresa X | Desenvolvedor Full Stack Junior | Remoto | Jan/2026 - Atual",
+        "context": "Desenvolvimento de plataforma web com APIs, frontend e banco de dados.",
+        "bullets": ["Implementei funcionalidades full stack e corrigi problemas em producao."]
+      }
+    ],
+    "projects": [],
+    "education": [
+      {
+        "title": "FATEC - Analise e Desenvolvimento de Sistemas | 2023 - 2026",
+        "details": ["TCC: Benchmark de bancos de dados relacionais e nao relacionais."]
+      }
+    ],
+    "languages": ["Portugues nativo", "Ingles intermediario"]
+  },
+  "coverLetter": {
+    "greeting": "Prezada equipe da Empresa X,",
+    "opening": "Tenho interesse na vaga de Desenvolvedor Full Stack Junior.",
+    "body": "Minha experiencia combina desenvolvimento web, APIs, testes e integracao com banco de dados.",
+    "bullets": [
+      {
+        "title": "JavaScript e TypeScript",
+        "text": "experiencia com aplicacoes web, APIs REST e manutencao de sistemas."
+      }
+    ],
+    "companyConnection": "Tenho interesse na Empresa X pelo foco em produtos digitais.",
+    "personalFit": "Sou organizado, pratico e orientado a aprendizado continuo.",
+    "final": "Fico a disposicao para conversar sobre como posso contribuir.",
+    "closing": "Atenciosamente,"
+  }
+}
+```
+
+O campo `coverLetter.date` e opcional. Se omitido, o TEX usa `\today`.
+
+O campo `profile.portfolio` e opcional. Se existir, a carta mostra `Portfólio` clicavel abaixo dos contatos do cabecalho. Se nao existir, essa linha nao aparece.
 
 ## Exemplos
 
-Gerar um curriculo padrao em portugues:
+Gerar documentos padrao em portugues:
 
 ```bash
-node ./dist/cli.js generate-pt --output caio-pt.pdf
+node ./dist/cli.js generate-pt --output caio-balieiro
 ```
 
-Gerar um curriculo padrao em ingles:
+Gerar usando um JSON de vaga:
 
 ```bash
-node ./dist/cli.js generate-en --output caio-resume.pdf
+node ./dist/cli.js generate-pt --config ./vaga.json --output lucas
 ```
 
-Gerar com sobrescritas simples por flags:
+Se `vaga.json` tiver `cv` e `coverLetter`, a saida sera:
 
-```bash
-node ./dist/cli.js generate-pt \
-  --title "Junior DevOps Engineer" \
-  --summary "Developer focused on CI/CD, containers, and observability." \
-  --skills "Backend: Node.js, Fastify; Cloud: AWS, Docker" \
-  --output caio-devops.pdf
+```text
+output/curriculo-lucas.pdf
+output/carta-apresentacao-lucas.pdf
+output/bin/carta-apresentacao-lucas.tex
+output/bin/carta-apresentacao-lucas.log
 ```
 
-Gerar usando um arquivo de configuracao:
+Se `vaga.json` tiver somente `coverLetter`, a saida sera:
 
-```bash
-node ./dist/cli.js generate-en --config ./config/job.json --output caio-job.pdf
+```text
+output/carta-apresentacao-lucas.pdf
+output/bin/carta-apresentacao-lucas.tex
+output/bin/carta-apresentacao-lucas.log
 ```
 
-Gerar com prompts interativos:
+## Flags
 
-```bash
-node ./dist/cli.js generate-pt --interactive
-```
+`--title <text>` sobrescreve `cv.title`.
+
+`--summary <text>` sobrescreve `cv.summary`.
+
+`--skills <text>` substitui `cv.skills`. Formato: `Categoria: item, item; Categoria: item`.
+
+`--output <base>` define a base dos nomes gerados dentro de `output/`. Por exemplo, `--output caio-balieiro` gera `output/curriculo-caio-balieiro.pdf` e `output/carta-apresentacao-caio-balieiro.pdf`. Componentes de diretorio, como `../resume` ou `nested/resume`, sao rejeitados. Se `.pdf` for informado, ele e removido da base antes de aplicar os prefixos.
+
+`--config <path>` carrega um JSON parcial. Chaves desconhecidas sao rejeitadas com erro de validacao.
+
+`--interactive` abre prompts para sobrescritas simples do curriculo.
 
 ## Ordem De Merge
-
-Os dados do curriculo sao combinados nesta ordem:
 
 ```text
 dados padrao < config JSON < flags ou respostas interativas
 ```
 
-Objetos sao mesclados campo a campo. Isso permite, por exemplo, sobrescrever apenas `profile.title` em um arquivo de config e manter os outros campos de `profile` vindos dos dados padrao.
-
-Arrays substituem secoes inteiras quando informados e nao vazios. Isso vale para `skills`, `experience`, `education` e `languages`. Se um desses arrays estiver ausente ou vazio na config, a secao padrao e preservada. `projects` e a excecao: use `"projects": []` para ocultar a secao de projetos pessoais.
-
-## Exemplo De Config JSON
-
-`--config` aceita um JSON parcial. Campos omitidos continuam usando os dados padrao do idioma selecionado.
-
-```json
-{
-  "profile": {
-    "name": "Caio Balieiro Mariano",
-    "location": "Guaratingueta, SP",
-    "phone": "+55 12 99142-2498",
-    "email": "caiobalieiro676@gmail.com",
-    "linkedin": "linkedin.com/in/caio-balieiro",
-    "github": "github.com/CaioBalieir0",
-    "title": "Desenvolvedor Backend Junior",
-    "summary": "Desenvolvedor focado em Node.js, TypeScript, APIs REST, PostgreSQL, Redis e AWS, com experiencia em sistemas de pagamento, backoffices e automacao de testes."
-  },
-  "skills": [
-    {
-      "category": "Backend",
-      "items": ["TypeScript", "Node.js", "Fastify", "Express", "REST APIs", "PostgreSQL", "Redis", "JWT", "Zod"]
-    },
-    {
-      "category": "Cloud/DevOps",
-      "items": ["AWS Lambda", "ECS Fargate", "Docker", "CI/CD", "GitHub Actions"]
-    }
-  ],
-  "experience": [
-    {
-      "title": "InfinityBase | Desenvolvedor Full Stack Junior | Out/2025 - Mai/2026",
-      "context": "Atuacao em fintech automotiva com APIs REST, chatbots de pagamento via WhatsApp e backoffice multi-tenant.",
-      "bullets": [
-        "Desenvolvi e mantive APIs REST com TypeScript, Bun, Clean Architecture e Express legado, integradas a bancos PostgreSQL.",
-        "Atuei em chatbots de pagamento com AWS Lambda, Lex, Twilio, Redis e BullMQ para conciliar sessoes ativas com confirmacoes de PIX.",
-        "Investiguei bugs em ambientes distribuidos usando CloudWatch, dumps de banco e tracing com OpenTelemetry/AWS X-Ray."
-      ]
-    }
-  ],
-  "projects": [
-    {
-      "title": "Benchmark de Bancos de Dados (TCC) - JavaScript, Docker, PostgreSQL, MongoDB, CockroachDB, Redis",
-      "context": "Projeto de comparacao de desempenho entre bancos SQL, NoSQL, NewSQL e In-Memory.",
-      "bullets": [
-        "Comparei latencia, TPS e consumo de recursos em ambiente isolado com Docker Compose."
-      ]
-    }
-  ],
-  "education": [
-    {
-      "title": "FATEC Guaratingueta - Analise e Desenvolvimento de Sistemas (Tecnologo) | Fev/2023 - Fev/2026",
-      "details": [
-        "Certificacoes: Cisco Networking Academy - Fundamentos da Rede (Jul/2025) | IT Essentials (Jun/2023)"
-      ]
-    }
-  ],
-  "languages": ["Portugues nativo", "Ingles intermediario (leitura tecnica fluente)"]
-}
-```
-
-Todos os objetos rejeitam chaves desconhecidas. Erros como `profiles`, `skill` ou `bullet` falham com mensagens de validacao indicando o caminho do campo incorreto.
+Com `--config`, os defaults completam apenas as secoes selecionadas pelo arquivo. Se o config nao tiver `cv`, o curriculo nao sera gerado por causa dos defaults. Se o config nao tiver `coverLetter`, a carta nao sera gerada por causa dos defaults.
 
 ## Verificacao Local
 
 ```bash
 npm run build
-node ./dist/cli.js generate-pt --output pt-check.pdf
-node ./dist/cli.js generate-en --output en-check.pdf
-node ./dist/cli.js generate-pt --title "Junior DevOps Engineer" --skills "Backend: Node.js, Fastify; Cloud: AWS, Docker" --output flags-check.pdf
+node ./dist/cli.js generate-pt --output pt-check
+node ./dist/cli.js generate-en --output en-check
 ```
 
-Para verificar a validacao de configs, crie temporariamente um arquivo JSON invalido, por exemplo:
-
-```json
-{
-  "skills": "Node.js"
-}
-```
-
-Depois execute:
-
-```bash
-node ./dist/cli.js generate-pt --config ./invalid-config.json
-```
-
-O resultado esperado e um erro de validacao com caminho do campo e codigo de saida `1`.
+Para carta de apresentacao, use um JSON com `coverLetter` e garanta que `xelatex` esteja instalado.

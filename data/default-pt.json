@@ -6,9 +6,11 @@
 		"email": "caiobalieiro676@gmail.com",
 		"linkedin": "linkedin.com/in/caio-balieiro",
 		"github": "github.com/CaioBalieir0",
-		"title": "Desenvolvedor Full Stack",
-		"summary": "Desenvolvedor Full Stack com experiência real em produção usando Node.js, TypeScript, React, Fastify, PostgreSQL/MySQL e AWS. Atuei como arquiteto principal em projeto freelancer end-to-end e em fintech automotiva com chatbots de pagamento via WhatsApp, APIs REST e backoffices. Background em QA com automação E2E (Playwright) em sistemas Web3 e governamentais."
+		"portfolio": "https://portfolio-caio-balieiro.vercel.app/"
 	},
+	"cv": {
+		"title": "Desenvolvedor Full Stack",
+		"summary": "Desenvolvedor Full Stack com experiência real em produção usando Node.js, TypeScript, React, Fastify, PostgreSQL/MySQL e AWS. Atuei como arquiteto principal em projeto freelancer end-to-end e em fintech automotiva com chatbots de pagamento via WhatsApp, APIs REST e backoffices. Background em QA com automação E2E (Playwright) em sistemas Web3 e governamentais.",
 	"skills": [
 		{
 			"category": "Backend",
@@ -135,4 +137,28 @@
 		"Português nativo",
 		"Inglês intermediário (leitura técnica fluente)"
 	]
+	},
+	"coverLetter": {
+		"greeting": "Prezada equipe de recrutamento,",
+		"opening": "Gostaria de me apresentar para futuras oportunidades em desenvolvimento de software e automação de qualidade. Sou desenvolvedor full stack com experiência prática em TypeScript, Node.js, React, APIs REST, bancos de dados e AWS, além de uma base sólida em QA automation com Playwright.",
+		"body": "Minha trajetória combina entrega de funcionalidades, investigação de problemas em produção e preocupação com qualidade. Atuei em sistemas reais envolvendo backoffices, chatbots de pagamento via WhatsApp, integrações externas, automação E2E e observabilidade, sempre buscando entender o produto e entregar soluções simples, testáveis e sustentáveis.",
+		"bullets": [
+			{
+				"title": "Desenvolvimento full stack",
+				"text": "experiência com React, Vite, Node.js, Fastify, Express, PostgreSQL, MySQL, Redis e integrações em nuvem."
+			},
+			{
+				"title": "Qualidade e automação",
+				"text": "background em QA com Playwright, CI/CD, documentação de testes e validação manual de fluxos críticos."
+			},
+			{
+				"title": "Produção e debugging",
+				"text": "vivência investigando problemas distribuídos com CloudWatch, bancos de dados, OpenTelemetry e AWS X-Ray."
+			}
+		],
+		"companyConnection": "Tenho interesse em equipes que valorizam revisão de código, aprendizado técnico, qualidade de entrega e evolução contínua de produto.",
+		"personalFit": "Acredito que meu perfil é especialmente útil em times que precisam de alguém em crescimento, mas já acostumado a lidar com código real, integrações, testes e problemas de produção.",
+		"final": "Fico à disposição para conversar sobre como posso contribuir em oportunidades de desenvolvimento full stack, backend, frontend ou QA automation.",
+		"closing": "Atenciosamente,"
+	}
 }

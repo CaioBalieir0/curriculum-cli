@@ -17,6 +17,7 @@
     "bin",
     "dist",
     "templates",
+    "assets",
     "data",
     "README.md"
   ],

@@ -1,4 +1,4 @@
-import type { CliOverrides, ResumeConfig, ResumeData } from './schema.js';
+import type { CliOverrides, CvData, GenerationConfig, GenerationData } from './schema.js';
 
 const defaultPreservingArrayKeys = new Set(['skills', 'experience', 'education', 'languages']);
 
@@ -32,7 +32,12 @@ function mergeValue(defaultValue: unknown, overrideValue: unknown, key?: string)
   return overrideValue;
 }
 
-export function parseSkillsFlag(value: string): ResumeData['skills'] {
+export type SelectedSections = {
+  cv: boolean;
+  coverLetter: boolean;
+};
+
+export function parseSkillsFlag(value: string): CvData['skills'] {
   return value
     .split(';')
     .map((group) => group.trim())
@@ -61,33 +66,46 @@ export function parseSkillsFlag(value: string): ResumeData['skills'] {
     });
 }
 
-export function buildFlagConfig(flags: CliOverrides): ResumeConfig {
-  const config: ResumeConfig = {};
+export function buildFlagConfig(flags: CliOverrides): GenerationConfig {
+  const config: GenerationConfig = {};
 
-  if (flags.title || flags.summary) {
-    config.profile = {};
+  if (flags.title || flags.summary || flags.skills) {
+    config.cv = {};
   }
 
   if (flags.title) {
-    config.profile = { ...config.profile, title: flags.title };
+    config.cv = { ...config.cv, title: flags.title };
   }
 
   if (flags.summary) {
-    config.profile = { ...config.profile, summary: flags.summary };
+    config.cv = { ...config.cv, summary: flags.summary };
   }
 
   if (flags.skills) {
-    config.skills = parseSkillsFlag(flags.skills);
+    config.cv = { ...config.cv, skills: parseSkillsFlag(flags.skills) };
   }
 
   return config;
 }
 
-export function mergeResumeData(
-  defaultData: ResumeData,
-  configData: ResumeConfig,
-  flagData: ResumeConfig
-): ResumeData {
-  const configMerged = mergeValue(defaultData, configData) as ResumeData;
-  return mergeValue(configMerged, flagData) as ResumeData;
+export function mergeGenerationData(
+  defaultData: GenerationData,
+  configData: GenerationConfig,
+  flagData: GenerationConfig,
+  selected: SelectedSections
+): GenerationData {
+  const base: GenerationData = {
+    profile: defaultData.profile
+  };
+
+  if (selected.cv && defaultData.cv) {
+    base.cv = defaultData.cv;
+  }
+
+  if (selected.coverLetter && defaultData.coverLetter) {
+    base.coverLetter = defaultData.coverLetter;
+  }
+
+  const configMerged = mergeValue(base, configData) as GenerationData;
+  return mergeValue(configMerged, flagData) as GenerationData;
 }

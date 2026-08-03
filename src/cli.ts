@@ -4,9 +4,10 @@ import { fileURLToPath } from 'node:url';
 import { Command } from 'commander';
 import { z } from 'zod';
 import { collectInteractiveOverrides } from './interactive.js';
-import { buildFlagConfig, mergeResumeData } from './merge.js';
+import { renderCoverLetter } from './cover-letter.js';
+import { buildFlagConfig, mergeGenerationData, type SelectedSections } from './merge.js';
 import { renderPdf, type Language } from './render.js';
-import { formatZodError, resumeConfigSchema, resumeSchema, type CliOverrides, type ResumeConfig, type ResumeData } from './schema.js';
+import { formatZodError, generationConfigSchema, generationSchema, type CliOverrides, type GenerationConfig, type GenerationData } from './schema.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -34,10 +35,10 @@ async function readJsonFile(filePath: string): Promise<unknown> {
   }
 }
 
-async function loadDefaultData(language: Language): Promise<ResumeData> {
+async function loadDefaultData(language: Language): Promise<GenerationData> {
   const filePath = path.join(projectRoot, 'data', `default-${language}.json`);
   const parsed = await readJsonFile(filePath);
-  const result = resumeSchema.safeParse(parsed);
+  const result = generationSchema.safeParse(parsed);
 
   if (!result.success) {
     throw new Error(`Invalid default data in ${filePath}:\n${formatZodError(result.error)}`);
@@ -46,20 +47,36 @@ async function loadDefaultData(language: Language): Promise<ResumeData> {
   return result.data;
 }
 
-async function loadConfig(configPath?: string): Promise<ResumeConfig> {
+async function loadConfig(configPath?: string): Promise<GenerationConfig> {
   if (!configPath) {
     return {};
   }
 
   const resolvedPath = path.resolve(process.cwd(), configPath);
   const parsed = await readJsonFile(resolvedPath);
-  const result = resumeConfigSchema.safeParse(parsed);
+  const result = generationConfigSchema.safeParse(parsed);
 
   if (!result.success) {
     throw new Error(`Invalid config:\n${formatZodError(result.error)}`);
   }
 
   return result.data;
+}
+
+function selectSections(defaultData: GenerationData, configData: GenerationConfig, flags: CliOverrides, hasConfig: boolean): SelectedSections {
+  const flagsSelectCv = Boolean(flags.title || flags.summary || flags.skills);
+
+  if (!hasConfig) {
+    return {
+      cv: Boolean(defaultData.cv) || flagsSelectCv,
+      coverLetter: Boolean(defaultData.coverLetter)
+    };
+  }
+
+  return {
+    cv: Boolean(configData.cv) || flagsSelectCv,
+    coverLetter: Boolean(configData.coverLetter)
+  };
 }
 
 async function generateResume(language: Language, options: CommandOptions): Promise<void> {
@@ -75,20 +92,28 @@ async function generateResume(language: Language, options: CommandOptions): Prom
     ? await collectInteractiveOverrides(initialOverrides)
     : initialOverrides;
   const flagData = buildFlagConfig(finalOverrides);
-  const mergedData = mergeResumeData(defaultData, configData, flagData);
-  const validatedData = resumeSchema.parse(mergedData);
-  const outputPath = await renderPdf(validatedData, language, finalOverrides.output);
+  const selectedSections = selectSections(defaultData, configData, finalOverrides, Boolean(options.config));
+  const mergedData = mergeGenerationData(defaultData, configData, flagData, selectedSections);
+  const validatedData = generationSchema.parse(mergedData);
 
-  console.log(`Generated PDF: ${outputPath}`);
+  if (validatedData.cv) {
+    const outputPath = await renderPdf({ profile: validatedData.profile, cv: validatedData.cv }, language, finalOverrides.output);
+    console.log(`Generated resume PDF: ${outputPath}`);
+  }
+
+  if (validatedData.coverLetter) {
+    const outputPaths = await renderCoverLetter({ profile: validatedData.profile, coverLetter: validatedData.coverLetter }, language, finalOverrides.output);
+    console.log(`Generated cover letter PDF: ${outputPaths.pdfPath}`);
+  }
 }
 
 function handleError(error: unknown): void {
   if (error instanceof z.ZodError) {
-    console.error(`Invalid resume data:\n${formatZodError(error)}`);
+    console.error(`Invalid generation data:\n${formatZodError(error)}`);
   } else if (error instanceof Error) {
     console.error(error.message);
   } else {
-    console.error('Unexpected error while generating the resume.');
+    console.error('Unexpected error while generating documents.');
   }
 
   process.exitCode = 1;
@@ -97,11 +122,11 @@ function handleError(error: unknown): void {
 function addGenerateCommand(program: Command, name: string, language: Language): void {
   program
     .command(name)
-    .description(`Generate a ${language === 'pt' ? 'Portuguese' : 'English'} resume PDF`)
+    .description(`Generate ${language === 'pt' ? 'Portuguese' : 'English'} resume and/or cover letter PDFs`)
     .option('--title <text>', 'override the resume title')
     .option('--summary <text>', 'override the professional summary')
     .option('--skills <text>', 'override skills, for example "Backend: Node.js, Fastify; Cloud: AWS, Docker"')
-    .option('--output <filename>', 'output PDF filename')
+    .option('--output <base>', 'output base name for generated PDFs')
     .option('--config <path>', 'path to a JSON config file')
     .option('--interactive', 'prompt for simple resume overrides')
     .action(async (options: CommandOptions) => {

@@ -6,9 +6,11 @@
 		"email": "caiobalieiro676@gmail.com",
 		"linkedin": "linkedin.com/in/caio-balieiro",
 		"github": "github.com/CaioBalieir0",
-		"title": "Full Stack Developer",
-		"summary": "Full Stack Developer with real production experience using Node.js, TypeScript, React, Fastify, PostgreSQL/MySQL, and AWS. Worked as the lead architect on an end-to-end freelance project and in an automotive fintech building WhatsApp payment chatbots, REST APIs, and back offices. QA background with E2E automation (Playwright) in Web3 and government systems."
+		"portfolio": "https://portfolio-caio-balieiro.vercel.app/"
 	},
+	"cv": {
+		"title": "Full Stack Developer",
+		"summary": "Full Stack Developer with real production experience using Node.js, TypeScript, React, Fastify, PostgreSQL/MySQL, and AWS. Worked as the lead architect on an end-to-end freelance project and in an automotive fintech building WhatsApp payment chatbots, REST APIs, and back offices. QA background with E2E automation (Playwright) in Web3 and government systems.",
 	"skills": [
 		{
 			"category": "Backend",
@@ -135,4 +137,28 @@
 		"Portuguese: native",
 		"English: intermediate (fluent technical reading)"
 	]
+	},
+	"coverLetter": {
+		"greeting": "Dear Hiring Team,",
+		"opening": "I would like to introduce myself for future opportunities in software development and quality automation. I am a full stack developer with hands-on experience in TypeScript, Node.js, React, REST APIs, databases, and AWS, combined with a strong QA automation background using Playwright.",
+		"body": "My experience combines feature delivery, production debugging, and a quality-focused engineering mindset. I have worked on real systems involving back offices, WhatsApp payment chatbots, external integrations, E2E automation, and observability, always aiming to understand the product and deliver simple, testable, maintainable solutions.",
+		"bullets": [
+			{
+				"title": "Full stack development",
+				"text": "experience with React, Vite, Node.js, Fastify, Express, PostgreSQL, MySQL, Redis, and cloud integrations."
+			},
+			{
+				"title": "Quality and automation",
+				"text": "QA background with Playwright, CI/CD, test documentation, and manual validation of critical flows."
+			},
+			{
+				"title": "Production and debugging",
+				"text": "experience investigating distributed issues with CloudWatch, databases, OpenTelemetry, and AWS X-Ray."
+			}
+		],
+		"companyConnection": "I am interested in teams that value code review, technical learning, delivery quality, and continuous product improvement.",
+		"personalFit": "I believe my profile is especially useful for teams looking for someone who is still growing, but already comfortable working with real code, integrations, tests, and production issues.",
+		"final": "I would be glad to discuss how I can contribute to full stack, backend, frontend, or QA automation opportunities.",
+		"closing": "Sincerely,"
+	}
 }

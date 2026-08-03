@@ -1,55 +1,107 @@
 {
   "profile": {
-    "location": "Jardim das Indústrias, São José dos Campos/SP",
-    "title": "Engenheiro de Software Júnior",
-    "summary": "Profissional com experiência em desenvolvimento de software, automação de testes e análise de dados, atuando com Node.js, TypeScript, React, Python, bancos de dados SQL e ferramentas de observabilidade. Experiência em desenvolvimento de soluções para ambientes produtivos, investigação de problemas, melhoria contínua e trabalho em equipes multidisciplinares. Conhecimento em Power BI, inteligência artificial e programação em Python, com perfil analítico e facilidade para aprender novas tecnologias."
+    "name": "Caio Balieiro Mariano",
+    "location": "Guaratingueta, SP",
+    "phone": "+55 12 99142-2498",
+    "email": "caiobalieiro676@gmail.com",
+    "linkedin": "linkedin.com/in/caio-balieiro",
+    "github": "github.com/CaioBalieir0",
+    "portfolio": "https://portfolio-caio-balieiro.vercel.app/"
   },
-  "skills": [
-    {
-      "category": "Programação",
-      "items": [
-        "Python",
-        "JavaScript",
-        "TypeScript",
-        "Node.js",
-        "React",
-        "Java", 
-        "REST APIs"
-      ]
-    },
-    {
-      "category": "Análise de Dados",
-      "items": [
-        "Power BI",
-        "ERP",
-        "SAP",
-        "SQL",
-        "PostgreSQL",
-        "MySQL",
-        "MongoDB",
-        "Redis"
-      ]
-    },
-    {
-      "category": "Inteligência Artificial",
-      "items": [
-        "ChatGPT",
-        "Claude",
-        "Desenvolvimento assistido por IA"
-      ]
-    },
-    {
-      "category": "Ferramentas",
-      "items": [
-        "Git",
-        "Docker",
-        "AWS",
-        "CI/CD",
-        "Jest",
-        "RabbitMQ",
-        "Playwright"
-      ]
-    }
-  ],
-  "projects": []
+  "cv": {
+    "title": "Desenvolvedor JavaScript Junior | Sustentacao e Suporte",
+    "summary": "Desenvolvedor Full Stack Junior com experiencia pratica em desenvolvimento, sustentacao e manutencao de sistemas em producao utilizando JavaScript, TypeScript, Node.js e React. Atuacao na investigacao e correcao de bugs em aplicacoes modernas e legadas, manutencao de APIs REST, analise de logs, bancos de dados e integracoes externas. Experiencia anterior em QA com testes automatizados em Playwright, apoiando a reproducao de falhas, validacao de correcoes e estabilidade das entregas.",
+    "skills": [
+      {
+        "category": "Desenvolvimento",
+        "items": ["JavaScript", "TypeScript", "Node.js", "Express", "Fastify", "Bun", "React", "Vite", "APIs REST"]
+      },
+      {
+        "category": "Sustentacao e suporte",
+        "items": ["Investigacao e correcao de bugs", "Debugging end-to-end", "Analise de logs", "Manutencao de sistemas legados", "Resolucao de incidentes", "Integracoes e webhooks"]
+      },
+      {
+        "category": "Bancos de dados",
+        "items": ["PostgreSQL", "MySQL", "MongoDB", "Redis", "TypeORM", "Prisma ORM", "Drizzle ORM", "Migrations", "Otimizacao de queries"]
+      },
+      {
+        "category": "Testes e qualidade",
+        "items": ["Jest", "Playwright", "Testes unitarios", "Testes de integracao", "Testes E2E", "TDD"]
+      },
+      {
+        "category": "Cloud e ferramentas",
+        "items": ["AWS Lambda", "AWS CloudWatch", "AWS X-Ray", "Docker", "Git", "GitHub", "GitHub Actions", "CI/CD", "OpenTelemetry"]
+      }
+    ],
+    "experience": [
+      {
+        "title": "Lumen Foundation | Desenvolvedor Full Stack e Responsavel Tecnico | Freelancer | Fev/2026 - Atual",
+        "context": "Desenvolvimento e sustentacao de uma plataforma web para fundacao social, com responsabilidade pela arquitetura, implementacao, testes e resolucao de problemas.",
+        "bullets": [
+          "Desenvolvi e mantenho frontend em React, Vite e TypeScript e API em Fastify, TypeScript, Drizzle ORM e MySQL.",
+          "Implementei autenticacao JWT, area do doador, painel administrativo, fluxos de doacao e integracoes externas.",
+          "Apliquei TDD com Jest em regras de negocio e pontos de seguranca e configurei observabilidade com OpenTelemetry e Jaeger.",
+          "Atuo no diagnostico de falhas, manutencao evolutiva e corretiva e revisao de codigo do projeto."
+        ]
+      },
+      {
+        "title": "InfinityBase | Desenvolvedor Full Stack Junior | Out/2025 - Mai/2026",
+        "context": "Desenvolvimento e sustentacao de sistemas em producao nos ecossistemas fintech automotivo e governamental, utilizando TypeScript moderno e JavaScript legado.",
+        "bullets": [
+          "Desenvolvi e mantive APIs REST em Bun e TypeScript, alem de API legada em Node.js e Express, atuando em rotas, regras de negocio, bancos PostgreSQL e migrations.",
+          "Investiguei e corrigi bugs end-to-end em ambientes distribuidos por meio de logs do CloudWatch, dumps de banco e tracing com OpenTelemetry e AWS X-Ray.",
+          "Mantive chatbots de pagamento via WhatsApp integrados a AWS Lambda, AWS Lex, Twilio, Redis e BullMQ, corrigindo falhas de sessao, midia, mensagens e webhooks.",
+          "Realizei manutencao e evolucao de interfaces em React, Vite e TypeScript e de sistemas JavaScript legados, atendendo demandas e problemas reportados por clientes.",
+          "Refatorei funcionalidades e consultas para melhorar desempenho e estabilidade, incluindo exportacoes Excel e geracao assincrona de PDFs."
+        ]
+      },
+      {
+        "title": "InfinityBase | Analista de QA | Mar/2025 - Out/2025",
+        "context": "Garantia da qualidade de sistemas fintech, governamentais e blockchain, apoiando a identificacao, reproducao e prevencao de falhas.",
+        "bullets": [
+          "Implementei testes automatizados E2E com Playwright em JavaScript e TypeScript.",
+          "Estruturei casos de teste, executei validacoes manuais e documentei resultados em colaboracao com o time de desenvolvimento.",
+          "Integrei testes automatizados a pipelines CI/CD com GitHub Actions, contribuindo para entregas mais estaveis."
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "title": "N-Queens Chess | Vue.js, JavaScript, testes e CI/CD",
+        "context": "Projeto desenvolvido como desafio tecnico, com foco na implementacao do problema das N rainhas e em praticas de qualidade de software.",
+        "bullets": [
+          "Desenvolvi a interface e a logica da aplicacao utilizando Vue.js e JavaScript.",
+          "Configurei testes automatizados e pipeline de CI/CD para validar continuamente o projeto."
+        ]
+      }
+    ]
+  },
+  "coverLetter": {
+    "date": "3 de agosto de 2026",
+    "greeting": "Prezada equipe da FabricaDS,",
+    "opening": "Escrevo para a vaga de Sustentacao e Suporte de Aplicacoes JavaScript Junior. Minha experiencia combina desenvolvimento JavaScript/TypeScript, suporte a sistemas em producao, investigacao de bugs e uma base anterior em QA, o que me ajuda a reproduzir problemas com cuidado, analisar causa raiz e apoiar correcoes de forma organizada.",
+    "body": "O foco da FabricaDS em AMS, sustentacao, modernizacao de aplicacoes e entregas com qualidade torna a vaga especialmente alinhada com a minha experiencia em suporte tecnico e desenvolvimento. Posso contribuir principalmente em:",
+    "bullets": [
+      {
+        "title": "Sustentacao de aplicacoes JavaScript",
+        "text": "corrigi problemas em producao envolvendo APIs REST, sessoes AWS Lex, webhooks, mensagens longas, envio de midia e integracoes financeiras/veiculares."
+      },
+      {
+        "title": "Suporte tecnico com base em evidencias",
+        "text": "investiguei falhas usando CloudWatch, banco de dados, logs, OpenTelemetry e AWS X-Ray, conectando sintomas de usuario a causas tecnicas."
+      },
+      {
+        "title": "JavaScript e TypeScript",
+        "text": "desenvolvi e mantive APIs Node.js, backoffices React/Vite/TypeScript, fluxos de chatbot e testes automatizados com Playwright e Jest."
+      },
+      {
+        "title": "Qualidade e documentacao",
+        "text": "estruturei casos de teste, validei fluxos manualmente e automatizei cenarios em CI/CD junto ao time de desenvolvimento."
+      }
+    ],
+    "companyConnection": "Como profissional junior, busco atuar com responsabilidade operacional, aprendizado continuo e atencao a qualidade, pontos importantes para uma empresa que posiciona AMS e sustentacao como parte da modernizacao dos clientes.",
+    "personalFit": "Minha trajetoria em QA e desenvolvimento me permite transitar entre reproducao de erro, analise tecnica e implementacao de correcoes sem tratar sustentacao como tarefa secundaria.",
+    "final": "Fico a disposicao para conversar sobre como posso apoiar a FabricaDS na sustentacao de aplicacoes JavaScript e evoluir junto ao time.",
+    "closing": "Atenciosamente,"
+  }
 }
